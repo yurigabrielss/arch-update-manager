@@ -4,7 +4,7 @@ from .updater import run_yay_updates, run_yay_upgrade
 from .parser import parse_updates
 
 def main():
-    parser = argparse.ArgumentParser(description="ArchSecure Update Manager")
+    parser = argparse.ArgumentParser(description="Arch Update Manager")
     sub = parser.add_subparsers(dest="command")
 
     parser_check = sub.add_parser("check", help="Check for available updates")

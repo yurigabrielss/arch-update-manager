@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "archupdatemanager"
+version = "0.1.0"
+description = "Arch-Update-Manager: CLI tool to check and upgrade packages on Arch Linux"
+authors = [
+    {name="Yuri Gabriel"}
+]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.scripts]
+archupdate = "archupdatemanager.cli:main"
