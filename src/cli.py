@@ -1,6 +1,6 @@
 import argparse
 import json
-from .updater import run_yay_updates
+from .updater import run_yay_updates, run_yay_upgrade
 from .parser import parse_updates
 
 def main():
@@ -14,7 +14,12 @@ def main():
         help="Output results in JSON format"
     )
 
-    sub.add_parser("upgrade", help="Upgrade packages (not implemented yet)")
+    p_upgrade = sub.add_parser("upgrade", help="Upgrade all packages")
+    p_upgrade.add_argument(
+    "--noconfirm",
+    action="store_true",
+    help="Automatically answer yes to all prompts"
+    )
 
     args = parser.parse_args()
 
@@ -28,9 +33,32 @@ def main():
             print_table(pkgs)
 
     elif args.command == "upgrade":
-        print("Upgrade não implementado ainda.")
+        run_yay_upgrade(noconfirm=getattr(args, "noconfirm", False))
     else:
-        parser.print_help()
+        pkgs = handle_check(json_mode=False)
+
+        if pkgs:
+            resp = input(
+                "Do you want to upgrade all packages automatically? [y/N]: "
+            ).strip().lower()
+            if resp == "y":
+                print("\nStarting upgrade...\n")
+                run_yay_upgrade(noconfirm=True)
+            else:
+                print("Exiting without upgrade.")
+
+def handle_check(json_mode=False):
+    text = run_yay_updates()
+    pkgs = parse_updates(text)
+
+    if not pkgs:
+        print("All packages are up to date!")
+    else:
+        if json_mode:
+            print(json.dumps(pkgs, indent=4, ensure_ascii=False))
+        else:
+            print_table(pkgs)
+    return pkgs
 
 def print_table(pkgs):
 
