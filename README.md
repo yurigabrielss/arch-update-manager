@@ -4,6 +4,9 @@
 
 ---
 
+Disclaimer: This repository is part of a personal study initiative.
+The implementation focuses on exploring concepts and experimenting with techniques, and it should not be considered production-ready software.
+
 ## Features
 
 - ✅ Check for available package updates (official repos + AUR via `yay`)  
